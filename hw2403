@@ -10,31 +10,34 @@ can.pack()
 
 # yv = 0; xv = s0 - v0*t; yb = h - (g*t**2) * 0.5; xb = vb * t
 
-kx = 1.1; x0 = 50; y0 = 480; ky = 0.8
+kx = 0.9; x0 = 50; y0 = 480; ky = 0.6
 xb = 200; xv = 1500
 yb = 200; yv = 1000
 g = 9.81
-vb = 183; vv = 10
-for t in range(0, 100):
+vb = 5; vv = 4
+for t in range(0, 10000):
     # BALL
     tt = t / 100
+    yb = yb + (g * tt ** 2) * 0.5
+    xb = xb + vb * tt
+    xv = xv - vv * tt
     oval = can.create_oval(kx * xb + 20, ky * yb + 20, kx * xb - 20, ky * yb - 20, width=4)
     vih = can.create_rectangle(kx * xv + 20, ky * yv + 20, kx * xv - 20, ky * yv - 20, width=4)
-    yb = yb + (g * (t ** 2) / 100) * 0.5
-    xb = xb + vb * tt
     sleep(0.02)
     can.update()
     # VIHICLE
-    xv = xv - vv * tt
+
     sleep(0.02)
     can.update()
-    can.delete(oval)
-    can.delete(vih)
-    if xv + 20 > xb > xv - 20 and yv + 20 > xb > yv - 20:
+    print(xv + 20 , xb , xv - 20 , yv + 20 , yb , yv - 20)
+    if xv + 20 > xb > xv - 20 and yv + 20 > yb > yv - 20:
         print("Попал")
         # oval = can.create_oval(kx * xb + 20, ky * yb + 20, kx * xb - 20, ky * yb - 20, width=4)
         # vih = can.create_rectangle(kx * xv + 20, ky * yv + 20, kx * xv - 20, ky * yv - 20, width=4)
         break
+    can.delete(oval)
+    can.delete(vih)
+
 
 
 win.mainloop()
